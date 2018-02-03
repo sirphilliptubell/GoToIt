@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- See Also
+  https://msdn.microsoft.com/en-us/library/bb166229.aspx
+  -->
+
+  <!--  This is the file that defines the actual layout and type of the commands.
+        It is divided in different sections (e.g. command definition, command
+        placement, ...), with each defining a specific set of properties.
+        See the comment before each section for more details about how to
+        use it. -->
+
+  <!--  The VSCT compiler (the tool that translates this file into the binary
+        format that VisualStudio will consume) has the ability to run a preprocessor
+        on the vsct file; this preprocessor is (usually) the C++ preprocessor, so
+        it is possible to define includes and macros with the same syntax used
+        in C++ files. Using this ability of the compiler here, we include some files
+        defining some of the constants that we will use inside the file. -->
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->  
+  <Extern href="stdidcmd.h"/>
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h"/>
+
+  <!--The Commands section is where commands, menus, and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidGoToPkg">
+    <!-- Inside this section we have different sub-sections: one for the menus, another
+    for the menu groups, one for the buttons (the actual commands), one for the combos
+    and the last one for the bitmaps used. Each element is identified by a command id that
+    is a unique pair of guid and numeric identifier; the guid part of the identifier is usually
+    called "command set" and is used to group different command inside a logically related
+    group; your package should define its own command set in order to avoid collisions
+    with command ids defined by other packages. -->
+
+    <!-- In this section you can define new menu groups. A menu group is a container for
+         other menus or buttons (commands); from a visual point of view you can see the
+         group as the part of a menu contained between two lines. The parent of a group
+         must be a menu. -->    
+    <Groups>
+      <!-- The group that contains all the items under "Go To" -->
+      <Group guid="guidGoToCmdSet" id="IdSymbolGroupPrimary" priority="0x0600">
+        <Parent guid="guidGoToCmdSet" id="IdSymbolMenuGoTo" />
+      </Group>
+    </Groups>
+    
+    <!--
+      This defines the submenu that we will add to the Edit menu
+      To do this, we set the parent to a group which is parented
+      by the edit menu
+    -->
+    <Menus>
+      <!-- "Go To Definition" appears to have priority=100 -->
+      <Menu guid="guidGoToCmdSet" id="IdSymbolMenuGoTo" priority="0xff" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_CODEWIN_NAVIGATETOLOCATION"/>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Go To</ButtonText>
+          <MenuText>Go To</MenuText>
+        </Strings>
+      </Menu>
+    </Menus>
+
+    <!--This section defines the elements the user can interact with, like a menu command or a button
+        or combo box in a toolbar. -->
+    <Buttons>
+      <Button guid="guidGoToCmdSet" id="IdSymbolCommandGoToGeneric" priority="0x0" type="Button">
+        <Parent guid="guidGoToCmdSet" id="IdSymbolGroupPrimary" />
+        <Strings>
+          <CommandName>Generic Arguments</CommandName>
+          <ButtonText>Generic Arguments</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidGoToCmdSet" id="IdSymbolCommandGoToMethod" priority="0x1" type="Button">
+        <Parent guid="guidGoToCmdSet" id="IdSymbolGroupPrimary" />
+        <Strings>
+          <CommandName>Method Arguments</CommandName>
+          <ButtonText>Method Arguments</ButtonText>
+        </Strings>
+      </Button>
+
+    </Buttons>
+  </Commands>
+  <Symbols>
+    <!-- This is the package guid. -->    
+    <GuidSymbol name="guidGoToPkg" value="{580458ce-fede-4155-890e-b0751181f5f3}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidGoToCmdSet" value="{a8deaa92-f23a-481d-b60a-09e56a12b9f9}">      
+      <IDSymbol name="IdSymbolGroupPrimary" value="0x0001" />
+      <IDSymbol name="IdSymbolMenuGoTo" value="0x0002" />
+      <IDSymbol name="IdSymbolCommandGoToGeneric" value="0x0003" />
+      <IDSymbol name="IdSymbolCommandGoToMethod" value="0x0004" />
+    </GuidSymbol>
+    
+  </Symbols>
+</CommandTable>
+
